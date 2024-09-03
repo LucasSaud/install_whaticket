@@ -79,6 +79,18 @@ USER_LIMIT=${max_user}
 CONNECTIONS_LIMIT=${max_whats}
 CLOSED_SEND_BY_ME=true
 
+GERENCIANET_SANDBOX=false
+GERENCIANET_CLIENT_ID=Client_Id_Gerencianet
+GERENCIANET_CLIENT_SECRET=Client_Secret_Gerencianet
+GERENCIANET_PIX_CERT=certificado-Gerencianet
+GERENCIANET_PIX_KEY=chave pix gerencianet
+
+
+VERIFY_TOKEN=whaticket
+
+FACEBOOK_APP_ID=
+FACEBOOK_APP_SECRET=
+
 MAIL_HOST="smtp.hostinger.com"
 MAIL_USER="contato@seusite.com"
 MAIL_PASS="senha"
