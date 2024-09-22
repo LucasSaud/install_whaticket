@@ -73,7 +73,7 @@ JWT_REFRESH_SECRET=${jwt_refresh_secret}
 
 REDIS_URI=redis://:${mysql_root_password}@127.0.0.1:${redis_port}
 REDIS_OPT_LIMITER_MAX=1
-REGIS_OPT_LIMITER_DURATION=3000
+REDIS_OPT_LIMITER_DURATION=3000
 
 USER_LIMIT=${max_user}
 CONNECTIONS_LIMIT=${max_whats}
@@ -90,12 +90,6 @@ VERIFY_TOKEN=whaticket
 
 FACEBOOK_APP_ID=
 FACEBOOK_APP_SECRET=
-
-MAIL_HOST="smtp.hostinger.com"
-MAIL_USER="contato@seusite.com"
-MAIL_PASS="senha"
-MAIL_FROM="Recuperar Senha <contato@seusite.com>"
-MAIL_PORT="465"
 
 [-]EOF
 EOF
