@@ -280,18 +280,24 @@ system_node_install() {
 
   sleep 2
 
-  sudo su - root <<EOF
-  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-  apt-get install -y nodejs
-  sleep 2
-  npm install -g npm@latest
-  sleep 2
-  sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-  sudo apt-get update -y && sudo apt-get -y install postgresql
-  sleep 2
-  sudo timedatectl set-timezone America/Sao_Paulo
-  
+sudo su - root <<EOF
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get updated
+sudo apt-get install -y nodejs=20.17.0-1nodesource1
+sleep 2
+
+sudo npm install -g npm@latest
+sleep 2
+
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+sudo apt-get update -y
+
+sudo apt-get -y install postgresql-16
+sleep 2
+
+sudo timedatectl set-timezone America/Sao_Paulo
 EOF
 
   sleep 2
