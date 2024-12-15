@@ -281,12 +281,14 @@ system_node_install() {
   sleep 2
 
 sudo su - root <<EOF
+sudo apt update
+sudo apt upgrade
+sudo apt install -y curl
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get updated
-sudo apt-get install -y nodejs=20.17.0-1nodesource1
+sudo apt install -y nodejs
 sleep 2
 
-sudo npm install -g npm@latest
+sudo npm install -g npm@10.8.0
 sleep 2
 
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
