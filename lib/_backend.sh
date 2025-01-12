@@ -68,6 +68,9 @@ DB_USER=${instancia_add}
 DB_PASS=${mysql_root_password}
 DB_NAME=${instancia_add}
 
+EMAIL_SECRET=jdyc egqi wkfu pmtw
+EMAIL=lucassaud9@gmail.com
+
 JWT_SECRET=${jwt_secret}
 JWT_REFRESH_SECRET=${jwt_refresh_secret}
 
@@ -84,12 +87,6 @@ GERENCIANET_CLIENT_ID=Client_Id_Gerencianet
 GERENCIANET_CLIENT_SECRET=Client_Secret_Gerencianet
 GERENCIANET_PIX_CERT=certificado-Gerencianet
 GERENCIANET_PIX_KEY=chave pix gerencianet
-
-
-VERIFY_TOKEN=whaticket
-
-FACEBOOK_APP_ID=
-FACEBOOK_APP_SECRET=
 
 [-]EOF
 EOF
