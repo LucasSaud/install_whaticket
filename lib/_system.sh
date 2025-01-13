@@ -284,21 +284,25 @@ sudo su - root <<EOF
 sudo apt update
 sudo apt upgrade
 sudo apt install -y curl
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
+# Download and install nvm:
+sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# Download and install Node.js:
+sudo nvm install 18
 sleep 2
-
-sudo npm install -g npm@10.8.0
+# Verify the Node.js version:
+node -v # Should print "v18.20.5".
+nvm current # Should print "v18.20.5".
 sleep 2
-
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-
-sudo apt-get update -y
-
-sudo apt-get -y install postgresql-16
+# Verify npm version:
+npm -v # Should print "10.8.2".
 sleep 2
-
+sudo apt install curl ca-certificates
+sudo install -d /usr/share/postgresql-common/pgdg
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo apt update
+sudo apt -y install postgresql-17
 sudo timedatectl set-timezone America/Sao_Paulo
 EOF
 
