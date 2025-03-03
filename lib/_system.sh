@@ -275,39 +275,83 @@ EOF
 #######################################
 system_node_install() {
   print_banner
-  printf "${WHITE} 💻 Instalando nodejs...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Instalando nodejs 20.17...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
 
-sudo su - root <<EOF
-sudo apt update
-sudo apt upgrade
-sudo apt install -y curl
-# Download and install nvm:
-sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+  # Instala o Node.js na conta root
+  sudo su - root <<EOF
+  # Atualizar repositórios
+  apt update
+  apt upgrade -y
 
-# Download and install Node.js:
-sudo nvm install 18
-sleep 2
-# Verify the Node.js version:
-node -v # Should print "v18.20.5".
-nvm current # Should print "v18.20.5".
-sleep 2
-# Verify npm version:
-npm -v # Should print "10.8.2".
-sleep 2
-sudo apt install curl ca-certificates
-sudo install -d /usr/share/postgresql-common/pgdg
-sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-sudo apt update
-sudo apt -y install postgresql-17
-sudo timedatectl set-timezone America/Sao_Paulo
+  # Instalar dependências
+  apt install -y curl build-essential
+
+  # Instalar NVM
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  export NVM_DIR="\$HOME/.nvm"
+  [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"
+  
+  # Instalar Node.js 20.17
+  nvm install 20.17.0
+  nvm alias default 20.17.0
+  nvm use default
+
+  # Adicionar NVM ao .bashrc para inicialização automática
+  echo 'export NVM_DIR="\$HOME/.nvm"' >> \$HOME/.bashrc
+  echo '[ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"' >> \$HOME/.bashrc
+  echo '[ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"' >> \$HOME/.bashrc
 EOF
 
   sleep 2
+
+  # Instala o Node.js na conta do usuário deploy
+  sudo su - deploy <<EOF
+  # Instalar NVM
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  export NVM_DIR="\$HOME/.nvm"
+  [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"
+  
+  # Instalar Node.js 20.17
+  nvm install 20.17.0
+  nvm alias default 20.17.0
+  nvm use default
+
+  # Adicionar NVM ao .bashrc para inicialização automática
+  echo 'export NVM_DIR="\$HOME/.nvm"' >> \$HOME/.bashrc
+  echo '[ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"' >> \$HOME/.bashrc
+  echo '[ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"' >> \$HOME/.bashrc
+  
+  # Verificar a instalação
+  node -v
+  npm -v
+EOF
+
+  sleep 2
+
+  # Instala o PostgreSQL e configura o fuso horário
+  sudo su - root <<EOF
+  # Instalar PostgreSQL
+  apt install curl ca-certificates -y
+  install -d /usr/share/postgresql-common/pgdg
+  curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+  sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+  apt update
+  apt -y install postgresql-17
+  
+  # Configurar timezone
+  timedatectl set-timezone America/Sao_Paulo
+EOF
+
+  print_banner
+  printf "${WHITE} ✅ Node.js 20.17 instalado com sucesso!${GRAY_LIGHT}"
+  printf "\n\n"
+
+  sleep 2
 }
+
 #######################################
 # installs docker
 # Arguments:
@@ -414,10 +458,28 @@ system_pm2_install() {
 
   sleep 2
 
+  # Instala o PM2 para o usuário root
   sudo su - root <<EOF
+  export NVM_DIR="\$HOME/.nvm"
+  [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"
   npm install -g pm2
-
 EOF
+
+  sleep 2
+
+  # Instala o PM2 para o usuário deploy
+  sudo su - deploy <<EOF
+  export NVM_DIR="\$HOME/.nvm"
+  [ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"
+  npm install -g pm2
+  
+  # Verificar a instalação do PM2
+  pm2 --version
+EOF
+
+  print_banner
+  printf "${WHITE} ✅ PM2 instalado com sucesso!${GRAY_LIGHT}"
+  printf "\n\n"
 
   sleep 2
 }
